@@ -1,0 +1,13 @@
+# Scraping
+beautifulsoup4==4.11.2
+selenium==4.8.2
+webdriver-manager==3.8.5
+
+# Retries lib
+tenacity==8.2.2
+
+# Parsing
+PyYAML==6.0
+
+# Validation
+pydantic
