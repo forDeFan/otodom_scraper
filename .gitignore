@@ -1,0 +1,6 @@
+venv
+env
+**/__pycache__
+driver/geckodriver
+geckodriver.log
+example.txt
