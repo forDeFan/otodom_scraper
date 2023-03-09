@@ -27,6 +27,11 @@ $ git clone https://github.com/forDeFan/otodom_scraper.git
 $ cd otodom_scraper
 $ pip install -r requirements.txt
 ```
+
+Download the gecko driver accordingly to your OS distro (save the file in /driver dir):
+<br>
+https://github.com/mozilla/geckodriver/releases
+
 Run the app
 
 ```
