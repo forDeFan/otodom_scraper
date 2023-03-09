@@ -7,7 +7,6 @@ Simple web page scrapper to accumulate real estate adverts from otodom anouncing
 
 * [Setup](#setup)
 * [TODO](#todo)
-<br>
 
 ## Setup
 
@@ -15,7 +14,7 @@ Simple web page scrapper to accumulate real estate adverts from otodom anouncing
 
 * python 3.X
 * linux distro (tested on Ubuntu x86_64 5.4.0-144-generic)
-<br>
+
 
 ### Install
 
