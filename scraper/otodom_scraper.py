@@ -46,7 +46,8 @@ class OtoDomScraper:
 
     def _reset_browser(self) -> None:
         """
-        Reset browser when visiting ascending sites.
+        Reset browser when visiting ascending sites
+        in order to avoid session error.
         """
         browser_options: Options = Options()
         browser_options.add_argument("--headless")
@@ -65,6 +66,7 @@ class OtoDomScraper:
         base_url: str = f"{self.PARAMS['base_url']}" + page_no
         constructed_url: str = base_url + suffix_url
 
+        # If next page of listing visited
         # self._reset_browser()
         assert (
             self.browser is not None
@@ -84,7 +86,7 @@ class OtoDomScraper:
         Get and return html content of particular estate anouncement page.
         Return: BeautifulSoup object
         """
-        # Need to reset in order to avoid session error form the browser.
+        # Need to reset in order to avoid session error from the browser.
         self._reset_browser()
 
         with self.browser as browser:
