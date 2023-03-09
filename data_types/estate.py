@@ -9,6 +9,9 @@ PARAMS = ParametersHandler().get_params()
 
 
 class Estate(BaseModel):
+    """ 
+    Estate model class.
+    """
     description: str
     url: str
     details: EstateDetails
