@@ -29,6 +29,7 @@ class OtoDomScraper:
         self.session: Session = self._init_session()
         self.browser: Firefox
         self._reset_browser()
+        logging.info(msg="Scraper started.\n")
 
     def _init_session(self) -> Session:
         session: Session = Session()
@@ -198,9 +199,10 @@ class OtoDomScraper:
                     logging.info(f"New entry parsed:\n{estate}")
 
                 estates.append(estate)
-                
+
         # Just for testing
         self.save_data(temp_path="example.txt", to_write=estates)
+        logging.info(msg="\n\nScraper finished.")
 
         return estates
 
@@ -209,4 +211,4 @@ class OtoDomScraper:
         with open(temp_path, "w+", encoding="utf-8") as f:
             for line in to_write:
                 f.write(str(line))
-                f.write('\n')
+                f.write("\n")
