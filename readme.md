@@ -6,6 +6,7 @@ Simple web page scrapper to accumulate real estate adverts from otodom anouncing
 ## Table of contents
 
 * [Setup](#setup)
+* [Run](#run)
 * [TODO](#todo)
 
 ## Setup
@@ -32,7 +33,17 @@ Download the gecko driver accordingly to your OS distro (save the file in /drive
 <br>
 https://github.com/mozilla/geckodriver/releases
 
-Run the app
+
+### Run
+
+Configuration is made thru parameters.yaml, web page elements class defined in prestes.yaml - can be changed accordingly if needed.
+<br>
+Configutation files in /config dir.
+<br>
+Verbose terminal logging is on by default.
+After succesfull run example.txt (with results) will be created in project root.
+
+To start scraper:
 
 ```
 $ python3 main.py
