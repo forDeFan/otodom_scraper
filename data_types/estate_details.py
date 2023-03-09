@@ -2,6 +2,9 @@ from pydantic import BaseModel, validator
 
 
 class EstateDetails(BaseModel):
+    """ 
+    Estate details model class.
+    """
     price: str
     size: str
     location: str
