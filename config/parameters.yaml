@@ -1,7 +1,19 @@
-base_url: https://www.otodom.pl/pl/wyszukiwanie/sprzedaz/mieszkanie/pomorskie/gdansk/gdansk/gdansk/rynek-wtorny?page=
-suffix_url: limit=24&ownerTypeSingleSelect=ALL&areaMin=80&areaMax=110&direction=DESC&viewType=listing
-pagination: page
 result_base_url: https://www.otodom.pl
+search_base_url: https://www.otodom.pl/pl/oferty/
+suffix_url: by=LATEST&direction=DESC&viewType=listing
+
+offering_type: sprzedaz
+estate_type: mieszkanie
+city: gdansk
+district: chelm
+radius: distanceRadius
+pagination: page
+max_listing_links: 24
+price_min: priceMin
+price_max: priceMax
+area_min: areaMin
+area_max: areaMax
+
 agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
 verbose_logging: true
 sleep_time: 0.5
