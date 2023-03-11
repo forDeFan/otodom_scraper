@@ -1,7 +1,9 @@
+# urls
 result_base_url: https://www.otodom.pl
 search_base_url: https://www.otodom.pl/pl/oferty/
 suffix_url: by=LATEST&direction=DESC&viewType=listing
 
+# Search url params
 offering_type: sprzedaz
 estate_type: mieszkanie
 city: gdansk
@@ -14,11 +16,13 @@ price_max: priceMax
 area_min: areaMin
 area_max: areaMax
 
+# For BS4/ Selenium
 agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
 verbose_logging: true
 sleep_time: 0.5
-page_limit: 1 # null or integer
+page_limit: 2 # null or integer
 
+# For Session
 retry:
   connect: 10
   read: 10
