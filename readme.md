@@ -33,6 +33,11 @@ Download the gecko driver accordingly to your OS distro (save the file in /drive
 <br>
 https://github.com/mozilla/geckodriver/releases
 
+### Parametrization
+
+for general setup: parameters.yaml<br>
+for elements html tags to be scraped: presets.yaml
+
 
 ### Run
 
