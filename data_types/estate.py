@@ -12,7 +12,6 @@ class Estate(BaseModel):
     """ 
     Estate model class.
     """
-    description: str
     url: str
     details: EstateDetails
 
