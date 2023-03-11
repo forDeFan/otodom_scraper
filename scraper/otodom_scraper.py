@@ -61,19 +61,52 @@ class OtoDomScraper:
         """
 
         # TODO prepare function for user input - url data
-
-        page_no: str = f"?{self.PARAMS['pagination']}={page_no}&"
+        search_base_url: str = f"{self.PARAMS['search_base_url']}"
+        offering_type: str = f"{self.PARAMS['offering_type']}/"
+        estate_type: str = f"{self.PARAMS['estate_type']}/"
+        city: str = f"{self.PARAMS['city']}/"
+        district: str = f"{self.PARAMS['district']}?"
+        radius: str = f"{self.PARAMS['radius']}={0}&"
+        page_no: str = f"{self.PARAMS['pagination']}={page_no}&"
+        max_listing_links: str = (
+            f"limit={self.PARAMS['max_listing_links']}&"
+        )
+        price_min: str = f"{self.PARAMS['price_min']}={100000}&"
+        price_max: str = f"{self.PARAMS['price_max']}={99990000}&"
+        area_min: str = f"{self.PARAMS['area_min']}={80}&"
+        area_max: str = f"{self.PARAMS['area_max']}={100}&"
         suffix_url: str = f"{self.PARAMS['suffix_url']}"
-        base_url: str = f"{self.PARAMS['base_url']}" + page_no
-        constructed_url: str = base_url + suffix_url
+
+        constructed_url: str = (
+            search_base_url
+            + offering_type
+            + estate_type
+            + city
+            + district
+            + radius
+            + page_no
+            + max_listing_links
+            + price_min
+            + price_max
+            + area_min
+            + area_max
+            + suffix_url
+        )
+
+        logging.info(msg="Search url " + constructed_url)
 
         # If next page of listing visited
         # self._reset_browser()
         assert (
             self.browser is not None
         ), "Failure in intializing the Browser!"
+
         with self.browser as browser:
             browser.get(constructed_url)
+            # Scroll page down to the bottom to fetch complete content
+            browser.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);"
+            )
             page_source: str = browser.page_source
             page_soup: BeautifulSoup = BeautifulSoup(
                 page_source, "html.parser"
@@ -106,6 +139,7 @@ class OtoDomScraper:
         Get and return estate anouncement details as list[str].
         """
         estate_details: list[str] = []
+
         for el in details_el_tag:
             try:
                 text: str = el.text.strip()
@@ -143,6 +177,12 @@ class OtoDomScraper:
             )
             estate_details_summary.insert(3, estate_location)
 
+            estate_description: Tag = estate_soup.find(
+                "div",
+                class_=self.PRESETS["estate_description_tag_class"],
+            )
+            estate_details_summary.insert(4, estate_description)
+
         except IndexError as e:
             logging.error(f"Error in parsing the estate details:\n{e}")
             return None
@@ -155,6 +195,7 @@ class OtoDomScraper:
             price=estate_details[1],
             size=estate_details[0],
             location=estate_details[3],
+            description=estate_details[4],
         )
 
     def parse_page(self, soup: BeautifulSoup) -> List[Estate]:
@@ -186,11 +227,6 @@ class OtoDomScraper:
                 sleep(self.PARAMS["sleep_time"])
 
                 estate = Estate(
-                    title=soup.find(
-                        name="h1",
-                        class_=self.PRESETS["estate_title_tag_class"],
-                    ),
-                    description="bla",
                     url=estate_url,
                     details=estate_details,
                 )
@@ -208,6 +244,9 @@ class OtoDomScraper:
 
     # Just for testing.
     def save_data(self, temp_path, to_write) -> None:
+        """
+        Save rseults to temp_path specified file.
+        """
         with open(temp_path, "w+", encoding="utf-8") as f:
             for line in to_write:
                 f.write(str(line))
