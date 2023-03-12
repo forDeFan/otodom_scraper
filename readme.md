@@ -1,6 +1,13 @@
 <h1>Selenium web scraper for otodom</h1>
 
-Simple web page scrapper to accumulate real estate adverts from otodom anouncing service.
+Simple scraper (for JS dynamically genarated web page) to perform accumulation of real estate adverts at otodom anouncing service.
+
+<h2>Technologies used (specified versions deifned in requirements.txt)</h2>
+* Python 3<br>
+* Selenium 4<br>
+* Beautiful Soup 4<br>
+* Tenacity<br>
+* Pydantic<br>
 
 
 ## Table of contents
