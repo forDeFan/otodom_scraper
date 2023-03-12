@@ -1,4 +1,5 @@
 import logging
+import time
 from time import sleep
 from typing import Any, List
 from urllib.parse import urljoin
@@ -29,9 +30,14 @@ class OtoDomScraper:
         self.session: Session = self._init_session()
         self.browser: Firefox
         self._reset_browser()
-        logging.info(msg="Scraper started.\n")
+        # For script execution time probing
+        self.time_start: float = time.time()
+        self.time_stop: float
 
     def _init_session(self) -> Session:
+        """
+        Start session per single browser instance.
+        """
         session: Session = Session()
         retries: Retry = Retry(
             connect=self.PARAMS["retry"]["connect"],
@@ -58,23 +64,25 @@ class OtoDomScraper:
     def get_listing_page_soup(self, page_no: int) -> BeautifulSoup:
         """
         Get and return html content of anouncement listing page.
+        Return: BeautifulSoup object
         """
 
-        # TODO prepare function for user input - url data
         search_base_url: str = f"{self.PARAMS['search_base_url']}"
         offering_type: str = f"{self.PARAMS['offering_type']}/"
         estate_type: str = f"{self.PARAMS['estate_type']}/"
         city: str = f"{self.PARAMS['city']}/"
         district: str = f"{self.PARAMS['district']}?"
-        radius: str = f"{self.PARAMS['radius']}={0}&"
+        radius: str = (
+            f"{self.PARAMS['radius']}={self.PARAMS['radius_value']}&"
+        )
         page_no: str = f"{self.PARAMS['pagination']}={page_no}&"
         max_listing_links: str = (
             f"limit={self.PARAMS['max_listing_links']}&"
         )
-        price_min: str = f"{self.PARAMS['price_min']}={100000}&"
-        price_max: str = f"{self.PARAMS['price_max']}={99990000}&"
-        area_min: str = f"{self.PARAMS['area_min']}={80}&"
-        area_max: str = f"{self.PARAMS['area_max']}={100}&"
+        price_min: str = f"{self.PARAMS['price_min']}={self.PARAMS['price_min_value']}&"
+        price_max: str = f"{self.PARAMS['price_max']}={self.PARAMS['price_max_value']}&"
+        area_min: str = f"{self.PARAMS['area_min']}={self.PARAMS['area_min_value']}&"
+        area_max: str = f"{self.PARAMS['area_max']}={self.PARAMS['area_max_value']}&"
         suffix_url: str = f"{self.PARAMS['suffix_url']}"
 
         constructed_url: str = (
@@ -96,7 +104,8 @@ class OtoDomScraper:
         logging.info(msg="Search url " + constructed_url)
 
         # If next page of listing visited
-        # self._reset_browser()
+        self._reset_browser()
+
         assert (
             self.browser is not None
         ), "Failure in intializing the Browser!"
@@ -120,7 +129,7 @@ class OtoDomScraper:
         Get and return html content of particular estate anouncement page.
         Return: BeautifulSoup object
         """
-        # Need to reset in order to avoid session error from the browser.
+
         self._reset_browser()
 
         with self.browser as browser:
@@ -201,7 +210,7 @@ class OtoDomScraper:
     def parse_page(self, soup: BeautifulSoup) -> List[Estate]:
         """
         Parse anouncement listing page, collect estate urls, visit each estate url and collect data from estate page.
-        Return list of Estate validated models.
+        Return: list[Estate] validated models.
         """
 
         estate_results: ResultSet[Any] = soup.find_all(
@@ -232,20 +241,63 @@ class OtoDomScraper:
                 )
 
                 if self.PARAMS["verbose_logging"]:
-                    logging.info(f"New entry parsed:\n{estate}")
+                    logging.info(f"New entry parsed:\n{estate.url}")
 
                 estates.append(estate)
 
-        # Just for testing
-        self.save_data(temp_path="example.txt", to_write=estates)
-        logging.info(msg="\n\nScraper finished.")
-
         return estates
 
-    # Just for testing.
+    def parse_site(self) -> List[Estate]:
+        """
+        Main scraper method to parse otodom page, extract data and save it into file.
+
+        Returns:
+            List[Estate]: list of estate validated model to be saved in a file.
+        """
+        logging.info("## Scraper started ##")
+
+        first_page_soup: BeautifulSoup = self.get_listing_page_soup(
+            page_no=1
+        )
+        page_results: list[Estate] = self.parse_page(
+            soup=first_page_soup
+        )
+        results: list[Estate] = page_results
+
+        page_num: int = 2
+        while len(page_results) > 0:
+            logging.info(
+                msg=f"### Start parsing next page (no: {page_num}) ###"
+            )
+            page_soup: BeautifulSoup = self.get_listing_page_soup(
+                page_no=page_num
+            )
+            page_results = self.parse_page(page_soup)
+            page_num += 1
+            if page_results:
+                results.extend(page_results)
+            if (
+                self.PARAMS["page_limit"]
+                and page_num >= self.PARAMS["page_limit"]
+            ):
+                break
+
+        # For script execution time probing
+        self.time_stop = time.time()
+
+        logging.info(
+            msg=f"## Scraper finished ## \n \
+            + # Execution time "
+            + str(self.time_stop - self.time_start)
+            + " seconds #"
+        )
+
+        return results
+
     def save_data(self, temp_path, to_write) -> None:
         """
-        Save rseults to temp_path specified file.
+        Save results to specified file in temp_path specified path - if just filename without path provided,
+        it will be saved in project root.
         """
         with open(temp_path, "w+", encoding="utf-8") as f:
             for line in to_write:
