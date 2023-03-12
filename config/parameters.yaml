@@ -4,12 +4,14 @@ search_base_url: https://www.otodom.pl/pl/oferty/
 suffix_url: by=LATEST&direction=DESC&viewType=listing
 
 # Search url params
+# Values can be changed accordingly to desired ones
+# Price in PLNs, area in sq meters, radius im km
 offering_type: sprzedaz
 estate_type: mieszkanie
 city: gdansk
 district: chelm
 radius: distanceRadius
-radius_value: 10 
+radius_value: 0 
 pagination: page
 max_listing_links: 32 # per page
 price_min: priceMin
