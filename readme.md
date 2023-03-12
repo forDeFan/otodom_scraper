@@ -37,7 +37,6 @@ $ pip install -r requirements.txt
 ```
 
 2. Download the gecko driver accordingly to your OS distro (save the file in /driver dir):
-<br>
 https://github.com/mozilla/geckodriver/releases
 
 ### Parametrization
