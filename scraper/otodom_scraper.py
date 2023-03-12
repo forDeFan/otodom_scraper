@@ -286,8 +286,7 @@ class OtoDomScraper:
         self.time_stop = time.time()
 
         logging.info(
-            msg=f"## Scraper finished ## \n \
-            + # Execution time "
+            msg=f"## Scraper finished ##\n# Execution time "
             + str(self.time_stop - self.time_start)
             + " seconds #"
         )
