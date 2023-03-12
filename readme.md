@@ -35,18 +35,16 @@ https://github.com/mozilla/geckodriver/releases
 
 ### Parametrization
 
-for general setup: parameters.yaml<br>
-for elements html tags to be scraped: presets.yaml
-
-
-### Run
-
-Configuration is made thru parameters.yaml, web page elements class defined in prestes.yaml - can be changed accordingly if needed.
-<br>
 Configutation files in /config dir.
 <br>
-Verbose terminal logging is on by default.
-After succesfull run example.txt (with results) will be created in project root.
+For general setup (search params mainly): parameters.yaml<br>
+For elements html tags to be scraped: presets.yaml
+
+
+## Run
+
+Verbose terminal logging is on by default (can be changed in parameters.yaml).<br>
+After succesfull run file example.txt will be created in project root (filename and path can be defined in parameters.yaml)
 
 To start scraper:
 
@@ -56,4 +54,4 @@ $ python3 main.py
 
 ## Todo
 
-Will add user interation thru command prompt in order to prepare the app for contenerization later on.
+Tests and possibly contenerization later on.
