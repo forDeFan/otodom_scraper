@@ -1,4 +1,4 @@
-<h1>Selenium web scraper for otodom</h1>
+<h1>Selenium web scraper for JS dynamically generated page</h1>
 
 Simple scraper (for JS dynamically genarated web page) to perform accumulation of real estate adverts at otodom anouncing service.
 
@@ -28,7 +28,7 @@ Simple scraper (for JS dynamically genarated web page) to perform accumulation o
 
 Advice to set up virtual environment before packages installation.
 
-Install codebase and run the app:
+1. Install codebase:
 
 ```
 $ git clone https://github.com/forDeFan/otodom_scraper.git
@@ -36,7 +36,7 @@ $ cd otodom_scraper
 $ pip install -r requirements.txt
 ```
 
-Download the gecko driver accordingly to your OS distro (save the file in /driver dir):
+2. Download the gecko driver accordingly to your OS distro (save the file in /driver dir):
 <br>
 https://github.com/mozilla/geckodriver/releases
 
