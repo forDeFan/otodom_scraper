@@ -9,21 +9,29 @@ estate_type: mieszkanie
 city: gdansk
 district: chelm
 radius: distanceRadius
+radius_value: 10 
 pagination: page
-max_listing_links: 24
+max_listing_links: 32 # per page
 price_min: priceMin
+price_min_value: 300000
 price_max: priceMax
+price_max_value: 900000
 area_min: areaMin
+area_min_value: 50
 area_max: areaMax
+area_max_value: 80
 
 # For BS4/ Selenium
 agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
 verbose_logging: true
 sleep_time: 0.5
-page_limit: 2 # null or integer
+page_limit: 2 # integer, do not exceed 3 to avoid IP ban
 
 # For Session
 retry:
   connect: 10
   read: 10
   redirect: 10
+
+# Result filename - path van be provided along with filename
+results_file: "example.txt"
