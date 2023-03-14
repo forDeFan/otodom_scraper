@@ -213,8 +213,8 @@ class OtoDomScraper:
         Return: list[Estate] validated models.
         """
 
-        estate_results: ResultSet[Any] = soup.find_all(
-            "li", {"class": self.PRESETS["li_listing_class"]}
+        estate_results: ResultSet[Any] = soup.select(
+            "[" + self.PRESETS["li_listing_attribute"] + "]"
         )
 
         estates: List[Estate] = []
