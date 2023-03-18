@@ -9,7 +9,7 @@ class ParametersHandler:
     Helper function to extract params from yaml and return predefined params.
     """
     def __init__(self) -> None:
-        self.handler: dict[Any, Any]
+        self.handler: Dict[Any, Any]
         current_directory: str = path.dirname(path.realpath(__file__))
         file_path: str = path.normpath(
             path.join(current_directory, "parameters.yaml")
