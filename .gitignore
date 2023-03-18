@@ -4,3 +4,4 @@ env
 geckodriver.log
 example.txt
 driver/geckodriver
+.mypy_cache
