@@ -75,7 +75,7 @@ class OtoDomScraper:
         radius: str = (
             f"{self.PARAMS['radius']}={self.PARAMS['radius_value']}&"
         )
-        page_no: str = f"{self.PARAMS['pagination']}={page_no}&"
+        page: str = f"{self.PARAMS['pagination']}={str(page_no)}&"
         max_listing_links: str = (
             f"limit={self.PARAMS['max_listing_links']}&"
         )
@@ -92,7 +92,7 @@ class OtoDomScraper:
             + city
             + district
             + radius
-            + page_no
+            + page
             + max_listing_links
             + price_min
             + price_max
@@ -142,12 +142,12 @@ class OtoDomScraper:
         return page_soup
 
     def get_estate_details(
-        self, details_el_tag: element.Tag
+        self, details_el_tag: Tag
     ) -> List[str]:
         """
         Get and return estate anouncement details as list[str].
         """
-        estate_details: list[str] = []
+        estate_details: List[str] = []
 
         for el in details_el_tag:
             try:
@@ -196,7 +196,7 @@ class OtoDomScraper:
             logging.error(f"Error in parsing the estate details:\n{e}")
             return None
 
-        estate_details: list[str] = self.get_estate_details(
+        estate_details: List[str] = self.get_estate_details(
             details_el_tag=estate_details_summary
         )
 
@@ -259,19 +259,14 @@ class OtoDomScraper:
         first_page_soup: BeautifulSoup = self.get_listing_page_soup(
             page_no=1
         )
-        page_results: list[Estate] = self.parse_page(
+        page_results: List[Estate] = self.parse_page(
             soup=first_page_soup
         )
-        results: list[Estate] = page_results
+        results: List[Estate] = page_results
 
         page_num: int = 2
         while len(page_results) > 0:
-            logging.info(
-                msg=f"### Start parsing next page (no: {page_num}) ###"
-            )
-            page_soup: BeautifulSoup = self.get_listing_page_soup(
-                page_no=page_num
-            )
+
             page_results = self.parse_page(page_soup)
             page_num += 1
             if page_results:
@@ -281,6 +276,13 @@ class OtoDomScraper:
                 and page_num >= self.PARAMS["page_limit"]
             ):
                 break
+
+            logging.info(
+                msg=f"### Start parsing next page (no: {page_num}) ###"
+            )
+            page_soup: BeautifulSoup = self.get_listing_page_soup(
+                page_no=page_num
+            )
 
         # For script execution time probing
         self.time_stop = time.time()
